@@ -1,6 +1,8 @@
 import csv
-# import datetime
-# from aiogram.types.message import ContentType
+import datetime
+
+now = datetime.datetime.now()
+now_string = now.strftime('%H:%M:%S %d/%m/%y')
 
 
 
@@ -39,6 +41,7 @@ async def overwrite_file(data: list, filename='directory.csv'):
             writer.writerow(dict(zip(title, row)))
 
 
+
 async def get_data_from_file(filename='directory.csv') -> list:
     """
     Функция которая считывает файл
@@ -51,8 +54,17 @@ async def get_data_from_file(filename='directory.csv') -> list:
     return result
 
 
-"""**************************     БАЗА ДАННЫХ ДЛЯ КАЛЬКУЛЯТОРА    ***********************************"""
+async def write_to_log(Data: str, filename='error_logfile.txt'):
+    """
+    Функция которая создает и заполняет лог ошибок
+    """
+    with open(filename, 'a', encoding='utf-8') as output:
+        output.write(now_string + ' ->   ' + Data)
+        output.write('\n')
 
-"""**************************     БАЗА ДАННЫХ ДЛЯ КОНФЕТ    ***********************************"""
+
+"""**************************     БАЗА ДАННЫХ ДЛЯ КАЛЬКУЛЯТОРА    **************************************"""
+
+"""********************************     БАЗА ДАННЫХ ДЛЯ КОНФЕТ    **************************************"""
 
 """**************************     БАЗА ДАННЫХ ДЛЯ КРЕСТИКИ_НОЛИКИ    ***********************************"""
