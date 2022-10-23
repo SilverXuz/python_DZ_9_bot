@@ -99,8 +99,12 @@ async def edit_find_contact(message: types.Message, state: FSMContext):
         data['find_contact'] = message.text
         print('Информация для поиска: ', message.text)
         contact_indexes = await search(message.text)
-        output = await print_contacts_by_index(contact_indexes)
-        await message.answer(output)
+        if len(contact_indexes) <= 0:            
+            await message.answer('Контакт не найден', reply_markup=notebookMenu)
+            await db.write_to_log(f'Поиск: {message.text}. Результат: контакт не найден')
+        else:
+            output = await print_contacts_by_index(contact_indexes)
+            await message.answer(output)
     await FSMeditContact.next()
     await message.reply('Введите ID который нужно изменить: ', reply_markup=cancelButton2)
 
@@ -146,8 +150,12 @@ async def del_find_contact(message: types.Message, state: FSMContext):
         data['find_contact'] = message.text
         print('Информация для поиска: ', message.text)
         contact_indexes = await search(message.text)
-        output = await print_contacts_by_index(contact_indexes)
-        await message.answer(output)
+        if len(contact_indexes) <= 0:            
+            await message.answer('Контакт не найден', reply_markup=notebookMenu)
+            await db.write_to_log(f'Поиск: {message.text}. Результат: контакт не найден')
+        else:
+            output = await print_contacts_by_index(contact_indexes)
+            await message.answer(output)
     await FSMdelContact.next()
     await message.reply('Введите ID который нужно удалить: ', reply_markup=cancelButton3)
 
@@ -191,10 +199,15 @@ async def search_contact(message: types.Message, state: FSMContext):
         data['find_contact'] = message.text
         print('Информация для поиска: ', message.text)
         contact_indexes = await search(message.text)
-        output = await print_contacts_by_index(contact_indexes)
-        await message.answer(output)
+        if len(contact_indexes) <= 0:            
+            await message.answer('Контакт не найден', reply_markup=notebookMenu)
+            await db.write_to_log(f'Поиск: {message.text}. Результат: контакт не найден')
+        else:
+            output = await print_contacts_by_index(contact_indexes)
+            await message.answer(output)
+            await bot.send_message(message.from_user.id, 'Выведены все найденные совпадения!', reply_markup=notebookMenu)
     await state.finish()
-    await bot.send_message(message.from_user.id, 'Выведены все найденные совпадения!', reply_markup=notebookMenu)
+
 
 
 """**************************************     ВЫВЕСТИ ВЕСЬ СПИСОК     ***************************************"""
@@ -288,4 +301,3 @@ def register_handlers_notebook(dp : Dispatcher):
     dp.register_message_handler(search_contact, state=FSMfindContact.find_contact)
 
     dp.register_message_handler(all_notebook, text=['Посмотреть весь справочник'])
-    
