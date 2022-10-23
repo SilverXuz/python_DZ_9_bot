@@ -110,11 +110,15 @@ async def edit_find_contact(message: types.Message, state: FSMContext):
 async def edit_input_id(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['input_edit_id'] = message.text
-        print('ID для измнения записан: ', message.text)
-    await delete_contact(message.text)
-    await state.finish()
-    await message.answer('Введите новые данные по контакту: ', reply_markup=cancelButton2)
-    await commands_addContact(message)
+        if message.text == '0':
+            await message.answer('Шапку нельзя удалять!', reply_markup=notebookMenu)
+            await state.finish()
+        else:
+            print('ID для измнения записан: ', message.text)
+            await delete_contact(message.text)
+            await state.finish()
+            await message.answer('Введите новые данные по контакту: ', reply_markup=cancelButton2)
+            await commands_addContact(message)
 
 
 async def delete_contact(del_id: str):
@@ -161,10 +165,14 @@ async def del_find_contact(message: types.Message, state: FSMContext):
 async def delete_input_id(message: types.Message, state: FSMContext):
     async with state.proxy() as data:
         data['input_del_id'] = message.text
-        print('ID для удаления записан: ', message.text)
-    await delete_contact(message.text)
-    await state.finish()
-    await bot.send_message(message.from_user.id, 'Контакт удален из справочника! *(индексы обновлены)*', reply_markup=notebookMenu)
+        if message.text == '0':
+            await message.answer('Шапку нельзя удалять!', reply_markup=notebookMenu)
+            await state.finish()
+        else:
+            print('ID для удаления записан: ', message.text)
+            await delete_contact(message.text)
+            await state.finish()
+            await bot.send_message(message.from_user.id, 'Контакт удален из справочника! *(индексы обновлены)*', reply_markup=notebookMenu)
 
 
 async def delete_contact(del_id: str):
