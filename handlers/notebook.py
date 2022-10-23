@@ -18,7 +18,6 @@ class FSMAddContact(StatesGroup):
 
 
 
-# @dp.message_handler(text=['Добавить новый контакт'], state=None)
 async def commands_addContact(message: types.Message) -> None:
     await FSMAddContact.surname.set()
     await message.reply('Введите фамилию: ', reply_markup=cancelButton1)
