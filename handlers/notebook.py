@@ -267,6 +267,7 @@ async def print_contacts_by_index(message: types.Message):
 
 # Команда 📘 Телефонный справочник
 async def main(message: types.Message):
+    print(f'Игрок {message.from_user.full_name} пользуется 📘 Телефонный справочник!')
     await bot.send_message(message.from_user.id, 'Выберите действие', reply_markup=notebookMenu)
 
 

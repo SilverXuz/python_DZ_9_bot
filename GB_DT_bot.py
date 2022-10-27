@@ -10,7 +10,7 @@ from handlers import calc, client, konfeta, krest_null, notebook, other
 
 # calc.register_handlers_calc(dp)
 client.register_handlers_client(dp)  
-# konfeta.register_handlers_konfeta(dp)
+konfeta.register_handlers_konfeta(dp)
 # krest_null.register_handlers_krest_null(dp)
 notebook.register_handlers_notebook(dp)
 # other.register_handlers_other(dp) # Этот хендлер должен быть всегда последним!!!
