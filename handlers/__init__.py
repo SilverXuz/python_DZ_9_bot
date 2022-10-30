@@ -1,3 +1,4 @@
+from handlers import calc_eval
 from handlers import calc
 from handlers import client
 from handlers import konfeta

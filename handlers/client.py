@@ -1,6 +1,6 @@
 from aiogram import types, Dispatcher
 from create_bot import bot
-from keyboards import genMenu
+from keyboards import genMenu, changesMenu
 
 
 
@@ -23,6 +23,11 @@ async def commands_help(message: types.Message):
     await bot.send_message(message.from_user.id, 'https://telegra.ph/EHkspediciya-10-13-3', reply_markup=genMenu)
 
 
-def register_handlers_client(dp : Dispatcher):
+async def changes_calc(message: types.Message):
+    await bot.send_message(message.from_user.id, 'Выберете калькулятор', reply_markup=changesMenu)
+
+
+def register_handlers_client(dp: Dispatcher):
     dp.register_message_handler(commands_start, commands=['start'])
     dp.register_message_handler(commands_help, commands=['help'])
+    dp.register_message_handler(changes_calc, text=['🧮 Калькулятор'])

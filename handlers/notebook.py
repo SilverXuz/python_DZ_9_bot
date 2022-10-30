@@ -272,15 +272,11 @@ async def main(message: types.Message):
 
 
 # Кнопка 🔙 Выход
-async def text_back(message : types.Message):
+async def text_back_nb(message : types.Message):
     await bot.send_message(message.from_user.id, 'Попробуйте другие первоклассные проекты!', reply_markup=genMenu)
 
 
 def register_handlers_notebook(dp : Dispatcher):
-    dp.register_message_handler(main, text=['📘 Телефонный справочник'])
-    dp.register_message_handler(text_back, text=['🔙 Выход'])
-    
-
     dp.register_message_handler(commands_addContact, text=['Добавить контакт'], state=None)
     dp.register_message_handler(cancel_add, state="*", commands='отмена добавления')
     dp.register_message_handler(cancel_add, Text(equals='отмена добавления', ignore_case=True), state="*")
@@ -309,3 +305,6 @@ def register_handlers_notebook(dp : Dispatcher):
     dp.register_message_handler(search_contact, state=FSMfindContact.find_contact)
 
     dp.register_message_handler(all_notebook, text=['Посмотреть весь справочник'])
+
+    dp.register_message_handler(main, text=['📘 Телефонный справочник'])
+    dp.register_message_handler(text_back_nb, text=['🔙 Выход'])

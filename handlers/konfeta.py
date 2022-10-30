@@ -1,6 +1,7 @@
 from aiogram import types, Dispatcher
 from create_bot import bot
 from keyboards import kb_candy, kb_konfeta_end, genMenu
+import re
 
 candy = 81     # Общее количество конфет
 
@@ -20,8 +21,10 @@ async def text1(message: types.Message):
     global candy
     if candy <= 0:
         candy == 81
-    candy -= int(message.text)
-    await message.reply(f'Осталось {candy} конфет')
+    take = re.findall(r'\d+', message.text)
+    take = int(take[0])
+    candy -= take
+    await message.reply(f'Осталось {candy} 🍭конфет')
     
     if candy <= 0:
         await message.answer('Игрок победил', reply_markup=kb_konfeta_end)
@@ -29,13 +32,13 @@ async def text1(message: types.Message):
         
         
     elif 7 >= candy > 0:    
-        await message.answer(f'Бот взял {candy} конфет.\nБот победил', reply_markup=kb_konfeta_end)
+        await message.answer(f'Бот взял {candy} 🍭конфет.\nБот победил', reply_markup=kb_konfeta_end)
         candy = 81
         
     else:
-        candy -= (9 - int(message.text))
-        await message.answer(f'Бот взял {9 - int(message.text)} конфет.')
-        await message.answer(f'Осталось {candy} конфет')
+        candy -= (9 - take)
+        await message.answer(f'Бот взял {9 - take} 🍭конфет.')
+        await message.answer(f'Осталось {candy} 🍭конфет')
 
 
 # Кнопка Сыграть снова
@@ -51,13 +54,13 @@ async def text_back(message : types.Message):
 
 def register_handlers_konfeta(dp: Dispatcher):
     dp.register_message_handler(command_place, text=['🍭 Конфеты'])
-    dp.register_message_handler(text1, text=['1'])
-    dp.register_message_handler(text1, text=['2'])
-    dp.register_message_handler(text1, text=['3'])
-    dp.register_message_handler(text1, text=['4'])
-    dp.register_message_handler(text1, text=['5'])
-    dp.register_message_handler(text1, text=['6'])
-    dp.register_message_handler(text1, text=['7'])
-    dp.register_message_handler(text1, text=['8'])
+    dp.register_message_handler(text1, text=['1🍭'])
+    dp.register_message_handler(text1, text=['2🍭'])
+    dp.register_message_handler(text1, text=['3🍭'])
+    dp.register_message_handler(text1, text=['4🍭'])
+    dp.register_message_handler(text1, text=['5🍭'])
+    dp.register_message_handler(text1, text=['6🍭'])
+    dp.register_message_handler(text1, text=['7🍭'])
+    dp.register_message_handler(text1, text=['8🍭'])
     dp.register_message_handler(reload_game, text=['Сыграть снова'])
-    dp.register_message_handler(text_back, text=['🔙 Выход'])
+    dp.register_message_handler(text_back, text=['🔙 Выход 🍭'])

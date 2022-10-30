@@ -64,6 +64,13 @@ async def write_to_log(Data: str, filename='error_logfile.txt'):
 
 
 """**************************     БАЗА ДАННЫХ ДЛЯ КАЛЬКУЛЯТОРА    **************************************"""
+async def write_to_log_calc(Data: str, filename='error_calc_logfile.txt'):
+    """
+    Функция которая создает и заполняет лог ошибок
+    """
+    with open(filename, 'a', encoding='utf-8') as output:
+        output.write(now_string + ' ->   ' + Data)
+        output.write('\n')
 
 """********************************     БАЗА ДАННЫХ ДЛЯ КОНФЕТ    **************************************"""
 
