@@ -5,7 +5,7 @@ from create_bot import bot
 from keyboards import calcMenu, genMenu, kb_calc_end
 from aiogram.dispatcher.filters import Text
 from aiogram.dispatcher.filters import Text
-
+from data_base import db
 
 class CalcStates(StatesGroup):
     waiting_for_first_number = State()
@@ -58,9 +58,15 @@ async def choosing_second_number(message: types.Message, state: FSMContext):
     elif oper == '*':
         result = first_number*second_number
     elif oper == '/':
-        result = first_number/second_number
-    await message.answer(f'Результат {result}', reply_markup=kb_calc_end)
-    await state.finish()
+        try:
+            result = first_number/second_number
+            await message.answer(f'Результат {result}', reply_markup=kb_calc_end)
+            await state.finish()
+        except ZeroDivisionError:
+            await message.answer('Деление на ноль не допускается!', reply_markup=kb_calc_end)
+            await db.write_to_log_calc(f'Обычный калькулятор: {message.text}. -> Результат: ZeroDivisionError')
+            await state.finish()
+
 
 # Кнопка Посчитать еще
 async def reload_game(message: types.Message):

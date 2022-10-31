@@ -33,15 +33,20 @@ async def operation_calc_eval(message: types.Message, state: FSMContext):
     exp = "".join(exp.split())
     if re.match('^([-+]?([(]?[0-9][)]?[+-/*]?))*$', exp):
         try:
-            await message.reply(f'Результат: {eval(exp)}', reply_markup=kb_calc_eval_end)
-            await state.finish()
+            try:
+                await message.reply(f'Результат: {eval(exp)}', reply_markup=kb_calc_eval_end)
+                await state.finish()
+            except ZeroDivisionError:
+                await message.reply('Деление на ноль не допускается!', reply_markup=kb_calc_eval_end)
+                await db.write_to_log_calc(f'Ошибка в рассчете!{message.text} -> Результат: ZeroDivisionError')
+                await state.finish()
         except:
-            await message.reply('Ошибка в рассчете, обратитесь к разработчику!')
-            await db.write_to_log_calc(f'Поиск: {message.text}. Результат: ошибка в рассчете', reply_markup=kb_calc_eval_end)
+            await message.reply('Ошибка в рассчете!', reply_markup=kb_calc_eval_end)
+            await db.write_to_log_calc(f'Ошибка в рассчете!{message.text} -> Результат: ошибка в рассчете')
             await state.finish()
     else:
-        await message.reply('Ошибка ввода!')
-        await db.write_to_log_calc(f'Поиск: {message.text}. Результат: ошибка ввода', reply_markup=kb_calc_eval_end)
+        await message.reply('Ошибка ввода!', reply_markup=kb_calc_eval_end)
+        await db.write_to_log_calc(f'Ошибка ввода!: {message.text}. -> Результат: ошибка ввода')
         await state.finish()
 
 
