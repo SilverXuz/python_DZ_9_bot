@@ -61,8 +61,7 @@ async def get_weather(message: types.Message, state: FSMContext):
 Закат солнца: <b>{sunset_timestamp}</b>
 Продолжительность дня: <b>{length_of_the_day}</b>
 
-<pre>***Хорошего дня!***</pre>"""
-              )
+<pre>***Хорошего дня!***</pre>""")
 
     except:
         await message.reply("\U00002620 Проверьте название города \U00002620")
