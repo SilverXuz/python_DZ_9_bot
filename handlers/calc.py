@@ -53,10 +53,16 @@ async def choosing_second_number(message: types.Message, state: FSMContext):
     result = 0
     if oper == '+':
         result = first_number+second_number
+        await message.answer(f'Результат {result}', reply_markup=kb_calc_end)
+        await state.finish()
     elif oper == '-':
         result = first_number-second_number
+        await message.answer(f'Результат {result}', reply_markup=kb_calc_end)
+        await state.finish()        
     elif oper == '*':
         result = first_number*second_number
+        await message.answer(f'Результат {result}', reply_markup=kb_calc_end)
+        await state.finish()
     elif oper == '/':
         try:
             result = first_number/second_number
