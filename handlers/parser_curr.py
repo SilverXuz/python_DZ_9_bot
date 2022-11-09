@@ -49,7 +49,7 @@ async def curr_rate_command(message: types.Message):
     plt.savefig("curr_rate.png")
     # plt.show()
     
-    photo = InputFile("curr_rate.png")
+    photo = InputFile("curr_rate.png", "rb")
     await bot.send_photo(chat_id=message.chat.id, photo=photo)
     
 """ Это копия того в каком виде хранятся данные в джейсоне!!!
